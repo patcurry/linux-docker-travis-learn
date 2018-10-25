@@ -3,15 +3,23 @@ sudo: required
 language: python
 
 services:
-    - docker
+- docker
 
 before_install:
-    - docker build -t linux-docker-travis-learn .
-    - docker run -d --name app linux-docker-travis-learn
-    - docker ps -a
+- docker build -t linux-docker-travis-learn .
+- docker run -d --name app linux-docker-travis-learn
+- docker ps -a
 
 script:
-    - docker exec app python -m unittest discover
+- docker exec app python -m unittest discover
+- docker tag linux-docker-travis-learn:latest $DOCKER_HUB_USERNAME/linux-docker-travis-learn:production
+- docker push $DOCKER_HUB_USERNAME/linux-docker-travis-learn:production
 
 after_script:
-    - docker rm -f app
+- docker rm -f app
+
+env:
+  global:
+  - secure: MsBsa/Uz3McbYVQy9/Gezhk/1OwdySfxpMCN816JIpOHF9JGdnhVt1j/LO2STbioZgbh1oaBkLtKMQFgMgmHU1haxaAmbQru9YahuDq8+2DwVrn5kQeu/EjPp8yS0roF57z/71+3nUXgeNoFWTgs5ILXqZHRXta49KefAAvlUCtHfSq8iGi2M0iW5BgGJXBZwKqxo7Ck6KGEDB8XXRnHAAuOqQSkT+7FbIv7dLdXBPlVY9eK6bexQufFu68hSJiD5Pd+Aj+xWGoOi2qEvdw51w+MgbeBf5cpejDS1Cu5sTJwJ4oM3Z/xchTkz+8WYVUR24LSsDXq2WBuZjcJnW14NalbZPL6/ImjYzaFODsrZNFj5jn1z2iSVLgfSmZNq3kXNCST8Ob8F9ZDAzU/xcsGQbv4Cy3ivZvQxX6tXV8R7wBRm51bIA174Tv4zW25raQLOPzHLpQQAIA0pcae9zOxhMLlJf8D0I31JE8sJ9VfDP2MIs3kT6lIKCFnqC6eq1hlPmKkoS54oQbRrz9SHaezlN2cBZBcWzhc61uQAkss3xxPOU2M0T9oMg3JdP7FS9bFPDrRSf43hTWvIV8OKAx+e3q/s5hvStCs2gioFg41bdXn7Ny7FlaT5LVwYIDP1vqWXFWjlM1NXuNqhvJfa+m0J2cKerUdn2WuPbTudG7X9KA=
+  - secure: tu7JP6BNN/98ek+IClPGY6GCXhrrFucbt3rE/c/ZfybLZxScRT+dZv+Pb3q95b2I0lG5u+igS/iONC/Q41S53NSpm8Urre0fQvN8A1I29gsj4aD50FBqY28Y1715F9ueOjzjZmIKD5XSeJ3QoNFWgYpcxecfMIKKoKpI3UVkU+mWR0EAJCmCmSBZSALsS70UNYSBrFQ+WCYc/ST2cLVCcyd0BEXBIaraPiiAD+57X0qPMAHfqFO9Xe1bPbsmKChfBaF81mVwve3BQ6mfgsDRf1L8I2ivyblz042ZLBlTBVCHgyoH10WVvuBMXrR4eZu9Ov78ifqidLoZNJHd5G3ec4PCapjrsd6XaFlZcOKHqAxYkYGlYVqoVfEKzXFQPW0DQKiLbyFUOJu2ohzYO6wFBl/KIkiX/dEcTSEIfjSHpinUvGuaMmRb4tBlrCKbLfTLYvBRmIcDi6fWAtTmYhahAm86DX0AUbJvockpYZwI9g1xHTMMywGjMjz6YSMLfPV3WFrd4alNXzpI/78r9Lo5qDqY+wCjGmeA4KpYx5XvhTxY15+n7LkbfWLud16kgGRNjwYfUk47NRLYUhGLb1gWhO4lHAyKle1B/+8BRdkqpcWvZr24qHqVuo5Des1zZV0YPCb719sJz1hQUoPqZic83sicaAdskS9f+0oMCvRval4=
+  - secure: AZcPBlIKzCOsVh6lbPLYgi3x/4ENkhs99rFu0ZitHU4890noca9bVjGsK114Ru8s7DhSknNWdgsVCFB30t6qcKF5Tn65a2swrtKsdth89I36T5V+JBrTjiRDy40n0f1OYxLtTWrX0Gb2Ufxxlb3BqRb/dwKb6ULCxOVr8w+I+IkXQbu6+nhWphu0VSgpt/51pvFH2i6Allha6WTuHBRILg/F7FlThtHbehw4HYTKsdytGAXE4k0W3j36mfYQkJg9Qxvc8lhn2fS2Uy2n/K5hsnu93juYBJZJbnux7E+xaJcUmUVoE69xKG+lDoieVNV5iP+qXJII39dEScdOOF1lUxmdhtT14eQvz75+s9j8QHUymfObbYoxl+fBjOBBWK2DlnS1oHnhTai/Ig0lJu4Kx8LrU1WTu+JqhUmfKg03rpOpKefb0BEHmgIkZdZ7ipTO/QXCtX6AoiwxrWi/dg7FvhOb/d0doioAiRFRMcBZg/vFeFbwt8Iy3QTyRU58qhglzr64kJDAKzrgNUPdK+6mm6+pZxItdkWDj48+b+TtbQ8pYvfhbhkCGRIcdhZ3luEUHf97qLvZdCLxG6LsPBRg61inmcQWA3smXGSQy9G/GTtbVGEkot8QssfQjhpC/MkUvUb7/ov5LwkoJqsvojOc5b41vOtQvq/kLMd2RdJQMjw=
