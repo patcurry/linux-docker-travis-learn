@@ -34,4 +34,4 @@ class FlaskAppTests(unittest.TestCase):
         result = self.app.get('/')
 
         # assert the response data
-        self.assertEqual(result.data, "Hi ! I\'m a Flask application.")
+        self.assertEqual(result.data, "Hi! I\'m a Flask application in a Docker container.")
